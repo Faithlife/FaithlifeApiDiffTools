@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Xml.Linq;
-using ApiDiffTool;
+using Faithlife.ApiDiffTool;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	public static class XUnitFormatter
 	{

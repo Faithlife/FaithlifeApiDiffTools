@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using ApiDiffTool;
 using CommandLine;
+using Faithlife.ApiDiffTool;
 using NuGet;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	class MainClass
 	{

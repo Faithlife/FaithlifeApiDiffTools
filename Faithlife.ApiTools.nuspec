@@ -9,6 +9,6 @@
         <copyright>Copyright 2015-2018 Faithlife Corporation</copyright>
     </metadata>
     <files>
-        <file src="src/PackageDiffTool/bin/Release/net461/**" target="tools" />
+        <file src="src/Faithlife.PackageDiffTool/bin/Release/net461/**" target="tools" />
     </files>
 </package>

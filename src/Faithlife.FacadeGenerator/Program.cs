@@ -3,7 +3,7 @@ using System.IO;
 using CommandLine;
 using Mono.Cecil;
 
-namespace FacadeGenerator
+namespace Faithlife.FacadeGenerator
 {
 	class MainClass
 	{

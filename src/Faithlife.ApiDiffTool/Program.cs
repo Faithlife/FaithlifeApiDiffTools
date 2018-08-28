@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using CommandLine;
-using FacadeGenerator;
+using Faithlife.FacadeGenerator;
 
-namespace ApiDiffTool
+namespace Faithlife.ApiDiffTool
 {
 	class MainClass
 	{

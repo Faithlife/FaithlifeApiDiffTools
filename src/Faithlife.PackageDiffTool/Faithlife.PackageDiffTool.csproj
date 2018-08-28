@@ -4,8 +4,8 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApiDiffTool\ApiDiffTool.csproj" />
-    <ProjectReference Include="..\FacadeGenerator\FacadeGenerator.csproj" />
+    <ProjectReference Include="..\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj" />
+    <ProjectReference Include="..\Faithlife.FacadeGenerator\Faithlife.FacadeGenerator.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.3.0" />

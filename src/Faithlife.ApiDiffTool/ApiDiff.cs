@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Mono.Cecil;
 
-namespace ApiDiffTool
+namespace Faithlife.ApiDiffTool
 {
 	public static class ApiDiff
 	{

@@ -3,7 +3,7 @@ using System.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-namespace FacadeGenerator
+namespace Faithlife.FacadeGenerator
 {
 	public static class FacadeModuleProcessor
 	{

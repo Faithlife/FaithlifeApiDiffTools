@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using NuGet;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	public class NullFileSystem : IFileSystem
 	{

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
-using FacadeGenerator;
+using Faithlife.FacadeGenerator;
 using Mono.Cecil;
 using NuGet;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	class ConsoleLogger : ILogger
 	{

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacadeGenerator", "src\FacadeGenerator\FacadeGenerator.csproj", "{3AD068B3-E9DA-4526-B3AF-C62E0A4AC5E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.FacadeGenerator", "src\Faithlife.FacadeGenerator\Faithlife.FacadeGenerator.csproj", "{3AD068B3-E9DA-4526-B3AF-C62E0A4AC5E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDiffTool", "src\ApiDiffTool\ApiDiffTool.csproj", "{34E1E997-CF68-47F8-B32C-7F566B91851D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.ApiDiffTool", "src\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj", "{34E1E997-CF68-47F8-B32C-7F566B91851D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E2E80F5E-835D-4D0A-BEAC-70DAD83AE04D}"
 EndProject
@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		rakefile = rakefile
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PackageDiffTool", "src\PackageDiffTool\PackageDiffTool.csproj", "{2D8C8F20-42C9-463E-A1FF-9ECC82CAD797}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.PackageDiffTool", "src\Faithlife.PackageDiffTool\Faithlife.PackageDiffTool.csproj", "{2D8C8F20-42C9-463E-A1FF-9ECC82CAD797}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

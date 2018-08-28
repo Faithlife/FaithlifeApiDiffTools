@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Versioning;
-using ApiDiffTool;
-using FacadeGenerator;
+using Faithlife.ApiDiffTool;
+using Faithlife.FacadeGenerator;
 using NuGet;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	public static class PackageDiff
 	{

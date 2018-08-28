@@ -2,7 +2,7 @@ using System.IO;
 using Mono.Cecil;
 using System;
 
-namespace FacadeGenerator
+namespace Faithlife.FacadeGenerator
 {
 	public static class CecilUtility
 	{

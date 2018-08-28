@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using NuGet;
 
-namespace PackageDiffTool
+namespace Faithlife.PackageDiffTool
 {
 	class LocalPackageHelper
 	{
