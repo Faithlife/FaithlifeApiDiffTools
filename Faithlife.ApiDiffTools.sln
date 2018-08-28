@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
@@ -18,7 +18,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B84D9CFF-7EC7-4319-A6B6-8613AE2773F7}"
 	ProjectSection(SolutionItems) = preProject
 		Faithlife.ApiDiffTools.nuspec = Faithlife.ApiDiffTools.nuspec
-		rakefile = rakefile
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
+		VersionHistory.md = VersionHistory.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.PackageDiffTool", "src\Faithlife.PackageDiffTool\Faithlife.PackageDiffTool.csproj", "{2D8C8F20-42C9-463E-A1FF-9ECC82CAD797}"
