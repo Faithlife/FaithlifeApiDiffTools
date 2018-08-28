@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package >
     <metadata>
-        <id>Faithlife.ApiTools</id>
-        <version>1.2.5</version>
+        <id>Faithlife.ApiDiffTools</id>
+        <version>1.0.0</version>
         <authors>Faithlife Corporation</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Tools for working with and manipulating APIs in .NET assemblies.</description>
