@@ -1,0 +1,14 @@
+obj
+bin
+*.userprefs
+*.DS_Store
+**/Resources/Resource.designer.cs
+*.swp
+dist
+packages/*/**
+build
+Components
+*.csproj.user
+*.suo
+*.sln.DotSettings.user
+.vs/
