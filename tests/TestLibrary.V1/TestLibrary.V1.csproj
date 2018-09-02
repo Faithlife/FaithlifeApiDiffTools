@@ -1,36 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F70D7A8-0693-41BA-9AE7-65B0F0B08BFE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>TestLibrary</RootNamespace>
-    <AssemblyName>TestLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FrameworkPathOverride Condition="'$(MONO_ROOT)' != ''">$(MONO_ROOT)/lib/mono/4.6.1-api/</FrameworkPathOverride>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;V1</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>V1</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Compile Include="..\TestLibrary\**\*.cs" />
   </ItemGroup>
-  <Import Project="..\TestLibrary\TestLibrary.projitems" Label="Shared" Condition="Exists('..\TestLibrary\TestLibrary.projitems')" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
