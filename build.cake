@@ -90,7 +90,9 @@ Task("NuGetPackage")
 	.IsDependentOn("UpdateDocs")
 	.Does(() =>
 	{
-		NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release" });
+		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
+			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
+		NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release", /*Suffix = versionSuffix*/ });
 	});
 
 Task("NuGetPackageTest")
