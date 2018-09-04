@@ -1,0 +1,9 @@
+﻿<Project>
+  <Import Project="Faithlife.FacadeGenerator.csproj" />
+
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <ToolCommandName>facadegenerator</ToolCommandName>
+  </PropertyGroup>
+</Project>

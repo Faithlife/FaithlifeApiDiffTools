@@ -93,6 +93,8 @@ Task("NuGetPackage")
 		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
 			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
 		NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release", /*Suffix = versionSuffix*/ });
+		foreach (var projectPath in GetFiles("src/**/*.Tool.csproj").Select(x => x.FullPath))
+			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
 	});
 
 Task("NuGetPackageTest")
