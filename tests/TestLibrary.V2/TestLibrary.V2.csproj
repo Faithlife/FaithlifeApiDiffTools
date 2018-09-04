@@ -5,5 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\TestLibrary\**\*.cs" />
+    <Content Include="..\TestLibrary\expected-diff.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

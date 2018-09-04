@@ -1,0 +1,57 @@
+B Method return type changed: T TestLibrary.PublicGenericClass`1::DoSomething()
+B Method return type changed: T1 TestLibrary.PublicGenericClass`2::DoSomething(T2)
+N Generic parameter name changed: TestLibrary.NonBreakingChanges.GenericClass`1 TClass
+B Method return type changed: TClass TestLibrary.NonBreakingChanges.GenericClass`1::Echo(TClass)
+B Method return type changed: T TestLibrary.NonBreakingChanges.GenericMethodsClass::GenericMethodTypeAliasChanged1(T)
+N Generic parameter name changed: T TestLibrary.NonBreakingChanges.GenericMethodsClass::GenericMethodTypeAliasChanged1(T) T
+N Generic parameter name changed: System.Collections.Generic.IEnumerable`1<System.Collections.Generic.KeyValuePair`2<T1,T2>> TestLibrary.NonBreakingChanges.GenericMethodsClass::GenericMethodTypeAliasChanged2(System.Collections.Generic.IEnumerable`1<T1>,System.Collections.Generic.IEnumerable`1<T2>) T1
+N Generic parameter name changed: System.Collections.Generic.IEnumerable`1<System.Collections.Generic.KeyValuePair`2<T1,T2>> TestLibrary.NonBreakingChanges.GenericMethodsClass::GenericMethodTypeAliasChanged2(System.Collections.Generic.IEnumerable`1<T1>,System.Collections.Generic.IEnumerable`1<T2>) T2
+N Method added: System.Void TestLibrary.NonBreakingChanges.GenericMethodsClass::GenericMethodOverloadAdded()
+N Default parameter value removed: System.Void TestLibrary.NonBreakingChanges.Overloads::.ctor(System.String,System.String) b
+N Default parameter value removed: System.Void TestLibrary.NonBreakingChanges.Overloads::Method(System.String,System.String) b
+N Method added: System.Void TestLibrary.NonBreakingChanges.Overloads::.ctor(System.String,System.String,System.String)
+N Method added: System.Void TestLibrary.NonBreakingChanges.Overloads::Method(System.String,System.String,System.String)
+N Field made public: TestLibrary.NonBreakingChanges.Fields System.String TestLibrary.NonBreakingChanges.Fields::FieldMadePublic
+N Enum values added: TestLibrary.NonBreakingChanges.Enum
+B Parameter type changed: System.Int32 TestLibrary.NonBreakingChanges.Convertible::op_Explicit(TestLibrary.NonBreakingChanges.Convertible) c
+B Parameter type changed: System.Int64 TestLibrary.NonBreakingChanges.Convertible::op_Explicit(TestLibrary.NonBreakingChanges.Convertible) c
+B Parameter type changed: System.Single TestLibrary.NonBreakingChanges.Convertible::op_Explicit(TestLibrary.NonBreakingChanges.Convertible) c
+B Parameter type changed: System.Double TestLibrary.NonBreakingChanges.Convertible::op_Explicit(TestLibrary.NonBreakingChanges.Convertible) c
+B Method return type changed: TestLibrary.NonBreakingChanges.Convertible TestLibrary.NonBreakingChanges.Convertible::op_Implicit(System.Int32)
+B Method return type changed: TestLibrary.NonBreakingChanges.Convertible TestLibrary.NonBreakingChanges.Convertible::op_Implicit(System.Int64)
+B Method return type changed: TestLibrary.NonBreakingChanges.Convertible TestLibrary.NonBreakingChanges.Convertible::op_Implicit(System.Single)
+B Method return type changed: TestLibrary.NonBreakingChanges.Convertible TestLibrary.NonBreakingChanges.Convertible::op_Implicit(System.Double)
+B Type removed: TestLibrary.BreakingChanges.Class1
+B Type made sealed: TestLibrary.BreakingChanges.ClassMadeSealed
+B Type made abstract: TestLibrary.BreakingChanges.ClassMadeAbstract
+B Method made non-public: System.Void TestLibrary.BreakingChanges.ClassMadeAbstract::.ctor()
+B Method made non-virtual: System.Void TestLibrary.BreakingChanges.Class4::Method1()
+B Method made sealed: System.Void TestLibrary.BreakingChanges.Class4::Method2()
+B Type made abstract: TestLibrary.BreakingChanges.StaticClass
+B Type made sealed: TestLibrary.BreakingChanges.StaticClass
+B Method removed: System.Void TestLibrary.BreakingChanges.StaticClass::.ctor()
+B Method made static: System.Void TestLibrary.BreakingChanges.StaticMethods::Method1()
+B Method made non-static: System.Void TestLibrary.BreakingChanges.StaticMethods::Method2()
+B Method made non-public: System.Void TestLibrary.BreakingChanges.ConstructorVisibility::.ctor()
+B Generic parameter default constructor constraint added: TestLibrary.BreakingChanges.ClassGenericConstraintAdded`1 T
+B Method removed: System.Void TestLibrary.BreakingChanges.ClassGenericConstraintAdded`1::MethodGenericConstraintAdded()
+B Method removed: System.Void TestLibrary.BreakingChanges.ClassGenericConstraintAdded`1::MethodGenericConstraintAdded()
+N Method added: System.Void TestLibrary.BreakingChanges.ClassGenericConstraintAdded`1::MethodGenericConstraintAdded()
+N Method added: System.Void TestLibrary.BreakingChanges.ClassGenericConstraintAdded`1::MethodGenericConstraintAdded()
+B Method removed: System.Void TestLibrary.BreakingChanges.ClassInterfaceImplementation::PublicInterfaceMethod1()
+B Method removed: System.Void TestLibrary.BreakingChanges.Parameters::MethodParametersChanged1(System.String)
+B Parameter attributes changed: System.Void TestLibrary.BreakingChanges.Parameters::MethodParametersChanged2(System.String&) foo
+B Method removed: System.Void TestLibrary.BreakingChanges.Parameters::MethodParametersTypeChanged(System.String)
+B Parameter name changed: System.Void TestLibrary.BreakingChanges.Parameters::MethodParameterNameChanged(System.String,System.String) first
+B Parameter name changed: System.Void TestLibrary.BreakingChanges.Parameters::MethodParameterNameChanged(System.String,System.String) second
+N Default parameter value added: System.Void TestLibrary.BreakingChanges.Parameters::MethodDefaultParameterValueAdded(System.String) foo
+N Default parameter value removed: System.Void TestLibrary.BreakingChanges.Parameters::MethodDefaultParameterValueRemoved(System.String) foo
+B Method default parameters removed: System.Void TestLibrary.BreakingChanges.Parameters::MethodDefaultParameterValueRemoved(System.String)
+N Default parameter value changed: System.Void TestLibrary.BreakingChanges.Parameters::MethodDefaultParameterValueChanged(System.String) foo
+N Method added: System.Void TestLibrary.BreakingChanges.Parameters::MethodParametersChanged1(System.String&)
+N Method added: System.Void TestLibrary.BreakingChanges.Parameters::MethodParametersTypeChanged(System.Int32)
+B Field made non-public: TestLibrary.BreakingChanges.Fields System.String TestLibrary.BreakingChanges.Fields::Field1
+B Field made non-static: TestLibrary.BreakingChanges.Fields System.String TestLibrary.BreakingChanges.Fields::Field2
+B Field made static: TestLibrary.BreakingChanges.Fields System.String TestLibrary.BreakingChanges.Fields::Field3
+B Enum values changed: TestLibrary.BreakingChanges.Enum
+N Type added: TestLibrary.NonBreakingChanges.ClassMadePublic

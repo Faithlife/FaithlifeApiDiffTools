@@ -80,7 +80,7 @@ Task("Test")
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
-		foreach (var projectPath in GetFiles("tests/**/*.csproj").Select(x => x.FullPath))
+		foreach (var projectPath in GetFiles("tests/**/*Tests.csproj").Select(x => x.FullPath))
 			DotNetCoreTest(projectPath, new DotNetCoreTestSettings { Configuration = configuration, NoBuild = true, NoRestore = true });
 	});
 
