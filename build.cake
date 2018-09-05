@@ -94,7 +94,11 @@ Task("NuGetPackage")
 			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
 		NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release", /*Suffix = versionSuffix*/ });
 		foreach (var projectPath in GetFiles("src/**/*.Tool.csproj").Select(x => x.FullPath))
+		{
+			// Package restore doesn't handle the change in TargetFramework correctly.
+			DeleteFiles("src/**/obj/project.assets.json");
 			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
+		}
 	});
 
 Task("NuGetPackageTest")
