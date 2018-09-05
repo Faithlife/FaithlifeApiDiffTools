@@ -2,32 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using CommandLine;
 using Faithlife.ApiDiffTool;
-using NuGet;
+using NuGet.Common;
+using NuGet.Versioning;
 
 namespace Faithlife.PackageDiffTool
 {
 	class MainClass
 	{
-		public static int Main(string[] args)
+		public static Task<int> Main(string[] args)
 		{
 			return Parser.Default.ParseArguments<Options>(args)
-				.MapResult(Run, errors => 1);
+	        	.MapResult(RunAsync, errors => Task.FromResult(1));
 		}
 
-		static int Run(Options options)
+		static async Task<int> RunAsync(Options options)
 		{
-			var packageHelper = new LocalPackageHelper();
-			if (options.Verbose)
-				packageHelper.Logger = ConsoleLogger.Instance;
+			var packageHelper = new LocalPackageHelper
+			{
+				Logger = options.Verbose ? ConsoleLogger.Instance : NullLogger.Instance
+			};
 
 			var package = packageHelper.GetLocalPackage(options.Path);
 
-			var packageId = options.PackageId ?? package.Id;
-			var version = options.Version != null ? new SemanticVersion(options.Version) : null;
-			var basePackage = packageHelper.GetPackage(packageId, version);
+			var packageId = options.PackageId ?? package.GetIdentity().Id;
+			var version = options.Version != null ? new NuGetVersion(options.Version) : null;
+			var basePackage = await packageHelper.GetPackageAsync(packageId, version).ConfigureAwait(false);
 
 			if (basePackage == null)
 			{
@@ -36,10 +39,9 @@ namespace Faithlife.PackageDiffTool
 			}
 
 			if (options.Verbose)
-				Console.WriteLine("Comparing {0} with base version {1}", package, basePackage.Version);
+				Console.WriteLine("Comparing {0} with base version {1}", package, basePackage.GetIdentity().Version);
 
-			SemanticVersion suggestedVersion;
-			var changes = PackageDiff.ComparePackageTypes(basePackage, package, out suggestedVersion);
+			var changes = PackageDiff.ComparePackageTypes(basePackage, package, out var suggestedVersion);
 
 			if (options.Verbose)
 			{
@@ -75,7 +77,7 @@ namespace Faithlife.PackageDiffTool
 					Console.WriteLine("xUnit results saved in {0}", resultsFileName);
 			}
 
-			if (options.VerifyVersion && package.Version < suggestedVersion)
+			if (options.VerifyVersion && package.GetIdentity().Version < suggestedVersion)
 				return 2;
 			return 0;
 		}
@@ -95,7 +97,7 @@ namespace Faithlife.PackageDiffTool
 
 		class Options
 		{
-			[Value(0, Required = true)]
+			[Value(0, Required = true, MetaName = "file", HelpText = "Path to package file")]
 			public string Path { get; set; }
 
 			[Option(HelpText = "Package ID to compare with")]

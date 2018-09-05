@@ -1,25 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Versioning;
-using Faithlife.FacadeGenerator;
-using Mono.Cecil;
-using NuGet;
+using System.Threading.Tasks;
+using NuGet.Common;
 
 namespace Faithlife.PackageDiffTool
 {
-	class ConsoleLogger : ILogger
+	class ConsoleLogger : LoggerBase
 	{
 		public static readonly ConsoleLogger Instance = new ConsoleLogger();
 
-		public void Log(MessageLevel level, string message, params object[] args)
+		public override void Log(ILogMessage message)
 		{
-			Console.WriteLine(message, args);
+			Console.WriteLine(message.Message);
 		}
 
-		public FileConflictResolution ResolveFileConflict(string message)
+		public override Task LogAsync(ILogMessage message)
 		{
-			return FileConflictResolution.IgnoreAll;
+			Console.WriteLine(message.Message);
+			return Task.CompletedTask;
 		}
 
 		private ConsoleLogger()

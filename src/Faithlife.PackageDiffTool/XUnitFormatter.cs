@@ -1,15 +1,14 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Versioning;
 using System.Xml.Linq;
 using Faithlife.ApiDiffTool;
+using NuGet.Frameworks;
 
 namespace Faithlife.PackageDiffTool
 {
 	public static class XUnitFormatter
 	{
-		public static XElement Format(Dictionary<FrameworkName, ReadOnlyCollection<TypeChanges>> changes)
+		public static XElement Format(IReadOnlyDictionary<NuGetFramework, IReadOnlyList<TypeChanges>> changes)
 		{
 			var typeCount = changes.Values.SelectMany(x => x).Count();
 			var breakingChangeCount = changes.Values.SelectMany(x => x).SelectMany(x => x.Changes).Count(x => x.IsBreaking);
@@ -20,12 +19,12 @@ namespace Faithlife.PackageDiffTool
 			}.Concat(changes.Select(Format)).ToArray());
 		}
 
-		static XElement Format(KeyValuePair<FrameworkName, ReadOnlyCollection<TypeChanges>> frameworkChangeSet)
+		static XElement Format(KeyValuePair<NuGetFramework, IReadOnlyList<TypeChanges>> frameworkChangeSet)
 		{
 			var typeCount = frameworkChangeSet.Value.Count;
 			var breakingChangeCount = frameworkChangeSet.Value.SelectMany(x => x.Changes).Count(x => x.IsBreaking);
 			return new XElement("testsuite", new object[] {
-				new XAttribute("name", frameworkChangeSet.Key.FullName),
+				new XAttribute("name", frameworkChangeSet.Key.DotNetFrameworkName),
 				new XAttribute("tests", typeCount),
 				new XAttribute("failures", breakingChangeCount),
 				new XAttribute("errors", 0)

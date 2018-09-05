@@ -33,5 +33,15 @@ namespace Faithlife.FacadeGenerator
 
 			return ModuleDefinition.ReadModule(path, readerParameters);
 		}
+
+		public static ModuleDefinition ReadModule(Stream stream)
+		{
+			var resolver = CreateDefaultAssemblyResolver();
+
+			var readerParameters = new ReaderParameters(ReadingMode.Deferred);
+			readerParameters.AssemblyResolver = resolver;
+
+			return ModuleDefinition.ReadModule(stream, readerParameters);
+		}
 	}
 }
