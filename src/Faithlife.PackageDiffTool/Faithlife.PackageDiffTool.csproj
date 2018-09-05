@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
@@ -10,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.3.0" />
     <PackageReference Include="Mono.Cecil" Version="0.10.0" />
-    <PackageReference Include="NuGet.PackageManagement" Version="4.7.0" />
+    <PackageReference Include="NuGet.Protocol" Version="4.7.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 </Project>

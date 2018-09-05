@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Configuration;
-using NuGet.PackageManagement;
 using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using NuGet.Packaging.Signing;
@@ -48,7 +47,7 @@ namespace Faithlife.PackageDiffTool
 			{
 				var repoVersions = await Task.WhenAll(m_repositories.Select(async repo =>
 				{
-					var metadata = repo.GetResource<MetadataResource>();
+					var metadata = await repo.GetResourceAsync<MetadataResource>(cancellationToken).ConfigureAwait(false);
 					var ver = await metadata.GetLatestVersion(packageId, includePrerelease: true, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
 					return (repository: repo, version: ver);
 				})).ConfigureAwait(false);
@@ -58,7 +57,13 @@ namespace Faithlife.PackageDiffTool
 				{
 					var packageIdentity = new PackageIdentity(packageId, latestVersion);
 
-					var downloadResult = await PackageDownloader.GetDownloadResourceResultAsync(repository, packageIdentity, new PackageDownloadContext(context), m_globalPackagesFolder, Logger, cancellationToken).ConfigureAwait(false);
+					var downloadResource = await repository.GetResourceAsync<DownloadResource>(cancellationToken).ConfigureAwait(false);
+					var downloadResult = await downloadResource.GetDownloadResourceResultAsync(
+						packageIdentity,
+						new PackageDownloadContext(context),
+						m_globalPackagesFolder,
+						Logger,
+						cancellationToken).ConfigureAwait(false);
 					return downloadResult.PackageReader;
 				}
 			}
