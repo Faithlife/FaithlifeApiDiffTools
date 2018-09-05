@@ -1,9 +1,0 @@
-﻿<Project>
-  <Import Project="Faithlife.PackageDiffTool.csproj" />
-
-  <PropertyGroup>
-    <PackAsTool>true</PackAsTool>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <ToolCommandName>packagediff</ToolCommandName>
-  </PropertyGroup>
-</Project>

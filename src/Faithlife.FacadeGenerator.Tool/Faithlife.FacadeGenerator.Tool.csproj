@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>facadegenerator</ToolCommandName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Faithlife.FacadeGenerator\Faithlife.FacadeGenerator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Faithlife.FacadeGenerator\Program.cs" />
+  </ItemGroup>
+</Project>

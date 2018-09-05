@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>apidiff</ToolCommandName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Faithlife.ApiDiffTool\Program.cs" />
+  </ItemGroup>
+</Project>
