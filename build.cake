@@ -11,8 +11,8 @@ var versionSuffix = Argument("versionSuffix", "");
 
 var solutionFileName = "Faithlife.ApiDiffTools.sln";
 var docsProjects = new[] { "Faithlife.ApiDiffTool" };
-var docsRepoUri = "https://github.com/Faithlife/Faithlife.ApiDiffTools.git";
-var docsSourceUri = "https://github.com/Faithlife/Faithlife.ApiDiffTools/tree/master/src";
+var docsRepoUri = "https://github.com/Faithlife/FaithlifeApiDiffTools.git";
+var docsSourceUri = "https://github.com/Faithlife/FaithlifeApiDiffTools/tree/master/src";
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var buildBotUserName = "faithlifebuildbot";
