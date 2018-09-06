@@ -1,12 +1,12 @@
-# ProjectName
+# Faithlife.ApiDiffTools
 
-**ProjectName** description
+**Faithlife.ApiDiffTools** description
 
 ## Installation
 
-ProjectName should be installed [via NuGet](https://www.nuget.org/packages/ProjectName).
+Faithlife.ApiDiffTools should be installed [via NuGet](https://www.nuget.org/packages/Faithlife.ApiDiffTools).
 
 ## Documentation
 
-* [Reference Documentation](ProjectName.md)
+* [Reference Documentation](Faithlife.ApiDiffTools.md)
 
