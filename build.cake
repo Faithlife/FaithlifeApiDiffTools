@@ -102,7 +102,7 @@ Task("NuGetPackageTest")
 	.Does(() =>
 	{
 		var firstProject = GetFiles("src/**/*.csproj").First().FullPath;
-		foreach (var nupkg in GetFiles("release/**/*.nupkg").Select(x => x.FullPath))
+		foreach (var nupkg in GetFiles("release/**/*.nupkg").Select(x => x.FullPath).Where(x => !(x.Contains(".Tool.") || x.Contains("Faithlife.ApiDiffTools."))))
 			DotNetCoreTool(firstProject, "sourcelink", $"test {nupkg}");
 	});
 
