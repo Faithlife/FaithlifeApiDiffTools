@@ -57,21 +57,29 @@ namespace Faithlife.PackageDiffTool
 			var major = startingVersion.Major;
 			var minor = startingVersion.Minor;
 			var patch = startingVersion.Patch;
+			var isPrerelease = !string.IsNullOrEmpty(startingVersion.Release);
 
 			if (changes.Count == 0)
 			{
-				patch++;
+				if (!isPrerelease)
+					patch++;
 			}
 			else if (changes.All(x => !x.IsBreaking) || major == 0)
 			{
-				minor++;
-				patch = 0;
+				if (!(isPrerelease && patch == 0) || (major == 0 && changes.Any(x => x.IsBreaking)))
+				{
+					minor++;
+					patch = 0;
+				}
 			}
 			else
 			{
-				major++;
-				minor = 0;
-				patch = 0;
+				if (!(isPrerelease && patch == 0 && minor == 0))
+				{
+					major++;
+					minor = 0;
+					patch = 0;
+				}
 			}
 
 			return new NuGetVersion(major, minor, patch, null);
