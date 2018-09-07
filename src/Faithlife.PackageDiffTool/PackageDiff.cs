@@ -62,7 +62,7 @@ namespace Faithlife.PackageDiffTool
 			{
 				patch++;
 			}
-			else if (changes.All(x => !x.IsBreaking))
+			else if (changes.All(x => !x.IsBreaking) || major == 0)
 			{
 				minor++;
 				patch = 0;

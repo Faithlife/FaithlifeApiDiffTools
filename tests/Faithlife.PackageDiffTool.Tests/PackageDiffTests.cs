@@ -13,6 +13,10 @@ namespace Faithlife.PackageDiffTool.Tests
 		[InlineData("1.0.0", false, true, "1.1.0")]
 		[InlineData("1.0.0", true, false, "2.0.0")]
 		[InlineData("1.0.0", true, true, "2.0.0")]
+		[InlineData("0.1.0", false, false, "0.1.1")]
+		[InlineData("0.1.0", false, true, "0.2.0")]
+		[InlineData("0.1.0", true, false, "0.2.0")]
+		[InlineData("0.1.0", true, true, "0.2.0")]
 		public void TestSuggestVersion(string startingVersion, bool hasBreakingChanges, bool hasNonBreakingChanges, string expectedVersion)
 		{
 			var changes = new List<Change>();
