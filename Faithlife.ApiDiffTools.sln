@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faithlife.PackageDiffTool",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faithlife.ApiDiffTool.Tests", "tests\Faithlife.ApiDiffTool.Tests\Faithlife.ApiDiffTool.Tests.csproj", "{0825EB25-1188-454C-976B-E6CAB43FDC51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faithlife.PackageDiffTool.Tests", "tests\Faithlife.PackageDiffTool.Tests\Faithlife.PackageDiffTool.Tests.csproj", "{786BD2B2-6A90-4B23-B6F4-E80769910A39}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		tests\TestLibrary\TestLibrary.projitems*{3fce4d35-279d-4786-83f2-0d35b418543e}*SharedItemsImports = 13
@@ -68,6 +70,10 @@ Global
 		{0825EB25-1188-454C-976B-E6CAB43FDC51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0825EB25-1188-454C-976B-E6CAB43FDC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0825EB25-1188-454C-976B-E6CAB43FDC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{786BD2B2-6A90-4B23-B6F4-E80769910A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{786BD2B2-6A90-4B23-B6F4-E80769910A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{786BD2B2-6A90-4B23-B6F4-E80769910A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{786BD2B2-6A90-4B23-B6F4-E80769910A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{6F70D7A8-0693-41BA-9AE7-65B0F0B08BFE} = {E2E80F5E-835D-4D0A-BEAC-70DAD83AE04D}
 		{57538D59-9988-42B5-8258-A55AC1297718} = {E2E80F5E-835D-4D0A-BEAC-70DAD83AE04D}
 		{0825EB25-1188-454C-976B-E6CAB43FDC51} = {E2E80F5E-835D-4D0A-BEAC-70DAD83AE04D}
+		{786BD2B2-6A90-4B23-B6F4-E80769910A39} = {E2E80F5E-835D-4D0A-BEAC-70DAD83AE04D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CE2696E6-06D9-4A93-8DB7-327328495B5E}
