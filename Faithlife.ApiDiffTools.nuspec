@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>Faithlife.ApiDiffTools</id>
-        <version>0.1.1</version>
+        <version>0.2.0</version>
         <authors>Faithlife Corporation</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Tools for working with and manipulating APIs in .NET assemblies.</description>
