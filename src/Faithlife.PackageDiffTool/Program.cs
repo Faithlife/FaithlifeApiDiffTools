@@ -30,7 +30,7 @@ namespace Faithlife.PackageDiffTool
 
 			var packageId = options.PackageId ?? package.GetIdentity().Id;
 			var version = options.Version != null ? new NuGetVersion(options.Version) : null;
-			var basePackage = await packageHelper.GetPackageAsync(packageId, version).ConfigureAwait(false);
+			var basePackage = await packageHelper.GetPackageAsync(packageId, version, options.IncludePrerelease).ConfigureAwait(false);
 
 			if (basePackage == null)
 			{
@@ -105,6 +105,9 @@ namespace Faithlife.PackageDiffTool
 
 			[Option(HelpText = "Package version to compare with")]
 			public string Version { get; set; }
+
+			[Option(HelpText = "Include pre-release versions to compare with")]
+			public bool IncludePrerelease { get; set; }
 
 			[Option(HelpText = "Verbose output")]
 			public bool Verbose { get; set; }

@@ -33,7 +33,7 @@ namespace Faithlife.PackageDiffTool
 
 		public ILogger Logger { get; set; }
 
-		public async Task<PackageReaderBase> GetPackageAsync(string packageId, NuGetVersion version, CancellationToken cancellationToken = default)
+		public async Task<PackageReaderBase> GetPackageAsync(string packageId, NuGetVersion version, bool includePrerelease, CancellationToken cancellationToken = default)
 		{
 			// if a version is specified, check locally, otherwise check all sources for the latest
 			LocalPackageInfo package = null;
@@ -48,7 +48,7 @@ namespace Faithlife.PackageDiffTool
 				var repoVersions = await Task.WhenAll(m_repositories.Select(async repo =>
 				{
 					var metadata = await repo.GetResourceAsync<MetadataResource>(cancellationToken).ConfigureAwait(false);
-					var ver = await metadata.GetLatestVersion(packageId, includePrerelease: true, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
+					var ver = await metadata.GetLatestVersion(packageId, includePrerelease, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
 					return (repository: repo, version: ver);
 				})).ConfigureAwait(false);
 				var (repository, latestVersion) = repoVersions.OrderByDescending(x => x.version).FirstOrDefault();
