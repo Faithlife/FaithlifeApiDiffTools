@@ -8,6 +8,7 @@ is updated in preparation for publishing an updated NuGet package.
 Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in accordance with [SemVer](http://semver.org).
 
 * [minor] Optionally compare packages to pre-release version, defaulting to false.
+* [minor] Add `includeInternals` option to ApiDiffTool, defaulting to false. This is a change in the default behavior.
 
 ## Released
 

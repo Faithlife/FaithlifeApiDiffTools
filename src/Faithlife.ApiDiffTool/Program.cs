@@ -18,8 +18,8 @@ namespace Faithlife.ApiDiffTool
 			var module1 = CecilUtility.ReadModule(options.File1);
 			var module2 = CecilUtility.ReadModule(options.File2);
 
-			FacadeModuleProcessor.MakePublicFacade(module1);
-			FacadeModuleProcessor.MakePublicFacade(module2);
+			FacadeModuleProcessor.MakePublicFacade(module1, options.IncludeInternals);
+			FacadeModuleProcessor.MakePublicFacade(module2, options.IncludeInternals);
 
 			var changes = ApiDiff.FindChanges(module1, module2);
 
@@ -43,6 +43,9 @@ namespace Faithlife.ApiDiffTool
 
 			[Value(1, Required = true)]
 			public string File2 { get; set; }
+
+			[Option("includeInternals", HelpText = "Include internal types and members.")]
+			public bool IncludeInternals { get; set; }
 		}
 	}
 }
