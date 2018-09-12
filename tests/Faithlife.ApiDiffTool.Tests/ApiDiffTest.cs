@@ -18,13 +18,28 @@ namespace Faithlife.ApiDiffTool.Tests
 			var module1 = CecilUtility.ReadModule(Path.Combine(directory, "TestLibrary.V1.dll"));
 			var module2 = CecilUtility.ReadModule(Path.Combine(directory, "TestLibrary.V2.dll"));
 
-			FacadeModuleProcessor.MakePublicFacade(module1);
-			FacadeModuleProcessor.MakePublicFacade(module2);
+			FacadeModuleProcessor.MakePublicFacade(module1, false);
+			FacadeModuleProcessor.MakePublicFacade(module2, false);
 
 			var changes = ApiDiff.FindChanges(module1, module2);
 
 			var diff = NormalizeDiff(changes.Select(change => $"{(change.IsBreaking ? "B" : "N")} {change.Message}"));
 			var expectedDiff = NormalizeDiff(File.ReadAllLines(Path.Join(directory, "expected-diff.txt")));
+
+			var falseNegatives = diff.Except(expectedDiff).ToList();
+			if (falseNegatives.Count != 0)
+			{
+				Console.WriteLine("false positives:");
+				Console.Write(string.Join(Environment.NewLine, falseNegatives));
+				Console.WriteLine();
+			}
+			var falsePositives = expectedDiff.Except(diff).ToList();
+			if (falsePositives.Count != 0)
+			{
+				Console.WriteLine("false negatives:");
+				Console.Write(string.Join(Environment.NewLine, falsePositives));
+				Console.WriteLine();
+			}
 
 			CollectionAssert.AreEqual(expectedDiff, diff);
 		}

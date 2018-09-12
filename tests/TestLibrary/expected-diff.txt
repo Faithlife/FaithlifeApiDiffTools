@@ -55,3 +55,11 @@ B Field made non-static: TestLibrary.BreakingChanges.Fields System.String TestLi
 B Field made static: TestLibrary.BreakingChanges.Fields System.String TestLibrary.BreakingChanges.Fields::Field3
 B Enum values changed: TestLibrary.BreakingChanges.Enum
 N Type added: TestLibrary.NonBreakingChanges.ClassMadePublic
+N Method added: System.Void TestLibrary.NonBreakingChanges.ClassMembers::MethodAdded(System.String)
+N Method added: System.Void TestLibrary.NonBreakingChanges.ClassMembers::MethodMadePublic()
+N Property setter added: System.String TestLibrary.NonBreakingChanges.ClassMembers::PropertySetterAdded()
+B Method added: System.Void TestLibrary.BreakingChanges.IInterface1::MethodAdded()
+B Method removed: System.Void TestLibrary.BreakingChanges.IInterface1::MethodRemoved()
+B Property added: System.String TestLibrary.BreakingChanges.IInterface1::PropertyAdded()
+B Property removed: System.String TestLibrary.BreakingChanges.IInterface1::PropertyRemoved()
+B Property setter added: System.String TestLibrary.BreakingChanges.IInterface1::PropertyChanged()

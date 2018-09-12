@@ -289,4 +289,23 @@ namespace TestLibrary.BreakingChanges
 		A,
 		#endif
 	}
+
+	public interface IInterface1
+	{
+		#if V1
+		string PropertyRemoved { get; set; }
+		void MethodRemoved();
+		#else
+		string PropertyAdded { get; set; }
+		void MethodAdded();
+		#endif
+
+		string PropertyChanged
+		{
+			get;
+			#if !V1
+			set;
+			#endif
+		}
+	}
 }

@@ -46,6 +46,8 @@ namespace Faithlife.ApiDiffTool
 		{
 			var changes = new List<Change>();
 
+			var maybeBreaking = (type1.IsInterface ? (Change.Creator) Change.Breaking : Change.NonBreaking);
+
 			if (type1.Attributes != type2.Attributes)
 			{
 				if (!type1.IsInterface && type2.IsInterface)
@@ -113,7 +115,7 @@ namespace Faithlife.ApiDiffTool
 			{
 				var property1 = FindMatchingProperty(type1.Properties, property2);
 				if (property1 == null)
-					changes.Add(Change.NonBreaking("Property added: {0}", property2.FullName));
+					changes.Add(maybeBreaking("Property added: {0}", property2.FullName));
 			}
 
 			foreach (var method1 in type1.Methods.Where(x => !x.IsGetter && !x.IsSetter))
@@ -142,7 +144,7 @@ namespace Faithlife.ApiDiffTool
 			{
 				var method1 = FindMatchingMethod(type1.Methods, method2);
 				if (method1 == null)
-					changes.Add(Change.NonBreaking("Method added: {0}", method2.FullName));
+					changes.Add(maybeBreaking("Method added: {0}", method2.FullName));
 			}
 
 			foreach (var nestedType1 in type1.NestedTypes)
@@ -210,6 +212,8 @@ namespace Faithlife.ApiDiffTool
 		{
 			var changes = new List<Change>();
 
+			var maybeBreaking = property1.DeclaringType.IsInterface ? (Change.Creator) Change.Breaking : Change.NonBreaking;
+
 			if (!AreEqual(property1.PropertyType, property2.PropertyType))
 			{
 				changes.Add(Change.Breaking("Property type changed: {0}", property1));
@@ -228,7 +232,7 @@ namespace Faithlife.ApiDiffTool
 				else if (property1.SetMethod != null && property2.SetMethod == null)
 					changes.Add(Change.Breaking("Property setter removed: {0}", property1));
 				else if (property1.SetMethod == null && property2.SetMethod != null)
-					changes.Add(Change.NonBreaking("Property setter added: {0}", property1));
+					changes.Add(maybeBreaking("Property setter added: {0}", property1));
 			}
 
 			return changes.AsReadOnly();
@@ -251,7 +255,7 @@ namespace Faithlife.ApiDiffTool
 					changes.Add(Change.Breaking("Method made virtual: {0}", method1));
 				else if (method1.IsVirtual && !method2.IsVirtual)
 					changes.Add(Change.Breaking("Method made non-virtual: {0}", method1));
-				
+
 				if (!method1.IsFinal && method2.IsFinal)
 					changes.Add(Change.Breaking("Method made sealed: {0}", method1));
 				else if (method1.IsFinal && !method2.IsFinal)
@@ -302,7 +306,7 @@ namespace Faithlife.ApiDiffTool
 					// TODO: test attributes for non-breaking changes
 					if ((param1.Attributes & ~OptionalWithDefault) != (param2.Attributes & ~OptionalWithDefault))
 						changes.Add(Change.Breaking("Parameter attributes changed: {0} {1}", obj, param1));
-					
+
 					if (param1.HasDefault && !param2.HasDefault)
 						changes.Add(Change.NonBreaking("Default parameter value removed: {0} {1}", obj, param1)); // maybe breaking
 					else if (!param1.HasDefault && param2.HasDefault)
@@ -376,7 +380,7 @@ namespace Faithlife.ApiDiffTool
 				changes.Add(Change.Breaking("Field made static: {0} {1}", obj, field1));
 			else if (field1.IsStatic && !field2.IsStatic)
 				changes.Add(Change.Breaking("Field made non-static: {0} {1}", obj, field1));
-			
+
 			if (!object.Equals(field1.Constant, field2.Constant))
 				changes.Add(Change.NonBreaking("Field value changed: {0} {1}", obj, field1));
 
@@ -394,6 +398,8 @@ namespace Faithlife.ApiDiffTool
 
 	public class Change
 	{
+		internal delegate Change Creator(string messageFormat, params object[] args);
+
 		public static Change Breaking(string messageFormat, params object[] args)
 		{
 			return new Change

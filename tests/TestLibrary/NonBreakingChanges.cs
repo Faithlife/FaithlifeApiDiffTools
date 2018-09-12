@@ -10,6 +10,10 @@ namespace TestLibrary.NonBreakingChanges
 	#endif
 	class ClassMadePublic
 	{
+	}
+
+	public class ClassMembers
+	{
 		#if V1
 		private
 		#else
@@ -30,7 +34,6 @@ namespace TestLibrary.NonBreakingChanges
 			set;
 			#endif
 		}
-
 	}
 
 	#if V1
