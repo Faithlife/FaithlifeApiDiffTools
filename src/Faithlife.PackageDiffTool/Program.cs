@@ -69,12 +69,14 @@ namespace Faithlife.PackageDiffTool
 
 			if (options.XUnit)
 			{
-				var root = XUnitFormatter.Format(changes);
+				var root = XUnitFormatter.Format(changes, packageId, package.GetIdentity().Version, suggestedVersion);
 				var doc = new XDocument(root);
-				var resultsFileName = packageId + "-changes.xml";
-				doc.Save(resultsFileName);
+				var resultsFilePath = packageId + "-changes.xml";
+				if (options.OutputDirectory != null)
+					resultsFilePath = Path.Combine(options.OutputDirectory, resultsFilePath);
+				doc.Save(resultsFilePath);
 				if (options.Verbose)
-					Console.WriteLine("xUnit results saved in {0}", resultsFileName);
+					Console.WriteLine("xUnit results saved in {0}", resultsFilePath);
 			}
 
 			if (options.VerifyVersion && package.GetIdentity().Version < suggestedVersion)
@@ -117,6 +119,9 @@ namespace Faithlife.PackageDiffTool
 
 			[Option(HelpText = "Generate xUnit results")]
 			public bool XUnit { get; set; }
+
+			[Option(HelpText = "Output directory for xUnit results")]
+			public string OutputDirectory { get; set; }
 
 			[Option(HelpText = "Fail if version is less than suggested")]
 			public bool VerifyVersion { get; set; }
