@@ -7,12 +7,14 @@ is updated in preparation for publishing an updated NuGet package.
 
 Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in accordance with [SemVer](http://semver.org).
 
+## Released
+
+### 0.2.0
+
 * [minor] Optionally compare packages to pre-release version, defaulting to false.
 * [minor] Add `includeInternals` option to ApiDiffTool, defaulting to false. This is a change in the default behavior.
 * [patch] Detect additions to interfaces as breaking changes.
 * [patch] Fix error when `nuget.config` includes a local directory.
-
-## Released
 
 ### 0.1.1
 
