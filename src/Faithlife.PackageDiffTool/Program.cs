@@ -79,8 +79,18 @@ namespace Faithlife.PackageDiffTool
 					Console.WriteLine("xUnit results saved in {0}", resultsFilePath);
 			}
 
-			if (options.VerifyVersion && package.GetIdentity().Version < suggestedVersion)
-				return 2;
+			if (options.VerifyVersion)
+			{
+				var compareVersion = package.GetIdentity().Version;
+
+				// if 1.2.3 is suggested, 1.2.3-xyz should be accepted
+				if (compareVersion.IsPrerelease && !suggestedVersion.IsPrerelease)
+					compareVersion = new NuGetVersion(compareVersion.Version);
+
+				if (compareVersion < suggestedVersion)
+					return 2;
+			}
+
 			return 0;
 		}
 
