@@ -9,6 +9,10 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
+### 0.2.1
+
+* [patch] If 1.2.3 is suggested, 1.2.3-xyz should be accepted.
+
 ### 0.2.0
 
 * [minor] Optionally compare packages to pre-release version, defaulting to false.
