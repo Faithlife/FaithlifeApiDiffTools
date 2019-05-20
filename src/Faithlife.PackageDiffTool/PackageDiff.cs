@@ -87,6 +87,9 @@ namespace Faithlife.PackageDiffTool
 
 		static IReadOnlyList<TypeChanges> FindChanges(Stream stream1, Stream stream2)
 		{
+			stream1 = MakeSeekable(stream1);
+			stream2 = MakeSeekable(stream2);
+
 			var module1 = CecilUtility.ReadModule(stream1);
 			var module2 = CecilUtility.ReadModule(stream2);
 
@@ -94,6 +97,19 @@ namespace Faithlife.PackageDiffTool
 			FacadeModuleProcessor.MakePublicFacade(module2, keepInternalTypes: false);
 
 			return ApiDiff.FindTypeChanges(module1, module2);
+		}
+
+		static Stream MakeSeekable(Stream stream)
+		{
+			if (!stream.CanSeek)
+			{
+				var memoryStream = new MemoryStream();
+				stream.CopyTo(memoryStream);
+				memoryStream.Position = 0;
+				stream = memoryStream;
+			}
+
+			return stream;
 		}
 	}
 
