@@ -26,7 +26,7 @@ namespace Faithlife.PackageDiffTool
 				Logger = options.Verbose ? ConsoleLogger.Instance : NullLogger.Instance
 			};
 
-			var package = packageHelper.GetLocalPackage(options.Path);
+			var package = await packageHelper.GetLocalPackageAsync(options.Path).ConfigureAwait(false);
 
 			var packageId = options.PackageId ?? package.GetIdentity().Id;
 			var version = options.Version != null ? new NuGetVersion(options.Version) : null;

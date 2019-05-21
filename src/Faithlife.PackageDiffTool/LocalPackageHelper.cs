@@ -41,7 +41,7 @@ namespace Faithlife.PackageDiffTool
 				package = m_localRepository.FindPackage(packageId, version);
 
 			if (package != null)
-				return GetLocalPackage(package.ZipPath);
+				return await GetLocalPackageAsync(package.ZipPath).ConfigureAwait(false);
 
 			using (var context = new SourceCacheContext())
 			{
@@ -71,7 +71,7 @@ namespace Faithlife.PackageDiffTool
 			return null;
 		}
 
-		public PackageReaderBase GetLocalPackage(string packagePath)
+		public async Task<PackageReaderBase> GetLocalPackageAsync(string packagePath)
 		{
 			if (packagePath.StartsWith("~/", StringComparison.Ordinal))
 				packagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), packagePath.Substring(2));
@@ -93,7 +93,7 @@ namespace Faithlife.PackageDiffTool
 
 			var resolver = new PackagePathResolver(rootDirectory);
 
-			PackageExtractor.ExtractPackageAsync(null, reader, resolver, context, default);
+			await PackageExtractor.ExtractPackageAsync(null, reader, resolver, context, default).ConfigureAwait(false);
 
 			var packageFolder = resolver.GetInstallPath(identity);
 			return new PackageFolderReader(packageFolder);
