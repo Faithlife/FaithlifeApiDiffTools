@@ -21,12 +21,12 @@ namespace Faithlife.PackageDiffTool
 	{
 		public LocalPackageHelper()
 		{
-			var settings = Settings.LoadDefaultSettings(Directory.GetCurrentDirectory());
+			m_settings = Settings.LoadDefaultSettings(Directory.GetCurrentDirectory());
 
-			m_globalPackagesFolder = SettingsUtility.GetGlobalPackagesFolder(settings);
+			m_globalPackagesFolder = SettingsUtility.GetGlobalPackagesFolder(m_settings);
 			m_localRepository = new NuGetv3LocalRepository(m_globalPackagesFolder);
 
-			var psp = new PackageSourceProvider(settings);
+			var psp = new PackageSourceProvider(m_settings);
 			var sources = psp.LoadPackageSources();
 			m_repositories = sources.Select(x => Repository.Factory.GetCoreV3(x.Source));
 		}
@@ -82,14 +82,11 @@ namespace Faithlife.PackageDiffTool
 			var identity = reader.GetIdentity();
 			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages");
 
-			var signedPackageVerifier = new PackageSignatureVerifier(SignatureVerificationProviderFactory.GetSignatureVerificationProviders());
-
 			var context = new PackageExtractionContext(
 				PackageSaveMode.Defaultv3,
 				XmlDocFileSaveMode.None,
-				Logger,
-				signedPackageVerifier,
-				SignedPackageVerifierSettings.GetDefault());
+				ClientPolicyContext.GetClientPolicy(m_settings, Logger),
+				Logger);
 
 			var resolver = new PackagePathResolver(rootDirectory);
 
@@ -99,6 +96,7 @@ namespace Faithlife.PackageDiffTool
 			return new PackageFolderReader(packageFolder);
 		}
 
+		readonly ISettings m_settings;
 		readonly string m_globalPackagesFolder;
 		readonly NuGetv3LocalRepository m_localRepository;
 		readonly IEnumerable<SourceRepository> m_repositories;
