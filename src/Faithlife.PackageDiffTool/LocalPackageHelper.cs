@@ -31,7 +31,7 @@ namespace Faithlife.PackageDiffTool
 			m_repositories = sources.Select(x => Repository.Factory.GetCoreV3(x.Source));
 		}
 
-		public ILogger Logger { get; set; }
+		public ILogger Logger { get; set; } = NullLogger.Instance;
 
 		public async Task<PackageReaderBase> GetPackageAsync(string packageId, NuGetVersion version, bool includePrerelease, CancellationToken cancellationToken = default)
 		{
@@ -41,7 +41,7 @@ namespace Faithlife.PackageDiffTool
 				package = m_localRepository.FindPackage(packageId, version);
 
 			if (package != null)
-				return await GetLocalPackageAsync(package.ZipPath).ConfigureAwait(false);
+				return await GetLocalPackageAsync(package.ZipPath, cancellationToken).ConfigureAwait(false);
 
 			using (var context = new SourceCacheContext())
 			{
@@ -71,7 +71,7 @@ namespace Faithlife.PackageDiffTool
 			return null;
 		}
 
-		public async Task<PackageReaderBase> GetLocalPackageAsync(string packagePath)
+		public async Task<PackageReaderBase> GetLocalPackageAsync(string packagePath, CancellationToken cancellationToken = default)
 		{
 			if (packagePath.StartsWith("~/", StringComparison.Ordinal))
 				packagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), packagePath.Substring(2));
@@ -80,7 +80,7 @@ namespace Faithlife.PackageDiffTool
 
 			var reader = new PackageArchiveReader(File.OpenRead(packagePath));
 			var identity = reader.GetIdentity();
-			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages");
+			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages", Path.GetRandomFileName());
 
 			var context = new PackageExtractionContext(
 				PackageSaveMode.Files | PackageSaveMode.Nuspec,
@@ -90,7 +90,7 @@ namespace Faithlife.PackageDiffTool
 
 			var resolver = new PackagePathResolver(rootDirectory);
 
-			await PackageExtractor.ExtractPackageAsync(null, reader, resolver, context, default).ConfigureAwait(false);
+			await PackageExtractor.ExtractPackageAsync(null, reader, resolver, context, cancellationToken).ConfigureAwait(false);
 
 			var packageFolder = resolver.GetInstallPath(identity);
 			return new PackageFolderReader(packageFolder);

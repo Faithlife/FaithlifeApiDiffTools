@@ -80,8 +80,10 @@ Task("Test")
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
+		foreach (var projectPath in GetFiles("tests/TestLibrary.*/*.csproj").Select(x => x.FullPath))
+			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, NoRestore = true, MSBuildSettings = new DotNetCoreMSBuildSettings { Properties = { ["AssemblyName"] = new[] { "TestLibrary" } } } });
 		foreach (var projectPath in GetFiles("tests/**/*Tests.csproj").Select(x => x.FullPath))
-			DotNetCoreTest(projectPath, new DotNetCoreTestSettings { Configuration = configuration, NoBuild = true, NoRestore = true });
+			DotNetCoreTest(projectPath, new DotNetCoreTestSettings { Configuration = configuration, NoRestore = true });
 	});
 
 Task("NuGetPackage")

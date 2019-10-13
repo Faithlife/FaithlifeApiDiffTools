@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Faithlife.ApiDiffTool;
-using Faithlife.PackageDiffTool;
 using NuGet.Versioning;
 using Xunit;
 
@@ -51,6 +51,18 @@ namespace Faithlife.PackageDiffTool.Tests
 
 			var suggestedVersion = PackageDiff.SuggestVersion(new NuGetVersion(startingVersion), changes);
 			Assert.Equal(expectedVersion, suggestedVersion.ToString());
+		}
+
+		[Fact]
+		public async Task TestComparePackageTypes()
+		{
+			var packageHelper = new LocalPackageHelper();
+
+			var package1 = await packageHelper.GetLocalPackageAsync("TestLibrary.1.0.0.nupkg").ConfigureAwait(false);
+			var package2 = await packageHelper.GetLocalPackageAsync("TestLibrary.2.0.0.nupkg").ConfigureAwait(false);
+			PackageDiff.ComparePackageTypes(package1, package2, out var suggestedVersion);
+
+			Assert.Equal(new NuGetVersion("2.0.0"), suggestedVersion);
 		}
 	}
 }
