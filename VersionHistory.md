@@ -8,6 +8,7 @@ is updated in preparation for publishing an updated NuGet package.
 Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in accordance with [SemVer](http://semver.org).
 
 * [patch] Wait for package extraction to complete.
+* [patch] Update to Nuget.Protocol 5.3.
 
 ## Released
 
