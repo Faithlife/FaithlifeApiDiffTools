@@ -9,6 +9,7 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 * [patch] Wait for package extraction to complete.
 * [patch] Update to Nuget.Protocol 5.3.
+* [patch] Fix comparing package with same version as previous comparison.
 
 ## Released
 
