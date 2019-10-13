@@ -80,7 +80,7 @@ namespace Faithlife.PackageDiffTool
 
 			var reader = new PackageArchiveReader(File.OpenRead(packagePath));
 			var identity = reader.GetIdentity();
-			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages");
+			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages", Path.GetRandomFileName());
 
 			var context = new PackageExtractionContext(
 				PackageSaveMode.Files | PackageSaveMode.Nuspec,
