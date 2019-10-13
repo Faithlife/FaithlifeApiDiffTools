@@ -83,7 +83,7 @@ namespace Faithlife.PackageDiffTool
 			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages");
 
 			var context = new PackageExtractionContext(
-				PackageSaveMode.Defaultv3,
+				PackageSaveMode.Files | PackageSaveMode.Nuspec,
 				XmlDocFileSaveMode.None,
 				ClientPolicyContext.GetClientPolicy(m_settings, Logger),
 				Logger);
