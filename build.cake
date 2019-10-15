@@ -1,4 +1,4 @@
-#addin "Cake.Git"
+#addin nuget:?package=Cake.Git&version=0.19.0
 #addin nuget:?package=Cake.XmlDocMarkdown&version=1.4.1
 
 using System.Text.RegularExpressions;
@@ -13,10 +13,16 @@ var solutionFileName = "Faithlife.ApiDiffTools.sln";
 var docsProjects = new[] { "Faithlife.ApiDiffTool" };
 var docsRepoUri = "https://github.com/Faithlife/FaithlifeApiDiffTools.git";
 var docsSourceUri = "https://github.com/Faithlife/FaithlifeApiDiffTools/tree/master/src";
+var nugetIgnore = new string[0];
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var buildBotUserName = "faithlifebuildbot";
 var buildBotPassword = EnvironmentVariable("BUILD_BOT_PASSWORD");
+var buildBotDisplayName = "Faithlife Build Bot";
+var buildBotEmail = "faithlifebuildbot@users.noreply.github.com";
+
+var docsBranchName = "gh-pages";
+DirectoryPath docsDirectory = null;
 
 Task("Clean")
 	.Does(() =>
@@ -51,28 +57,14 @@ Task("UpdateDocs")
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
-		var branchName = "gh-pages";
-		var docsDirectory = new DirectoryPath(branchName);
-		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = branchName });
+		docsDirectory = new DirectoryPath(docsBranchName);
+		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = docsBranchName });
 
 		Information($"Updating documentation at {docsDirectory}.");
 		foreach (var docsProject in docsProjects)
 		{
-			XmlDocMarkdownGenerate(File($"src/{docsProject}/bin/{configuration}/net461/{docsProject}.dll").ToString(), $"{docsDirectory}{System.IO.Path.DirectorySeparatorChar}",
+			XmlDocMarkdownGenerate(File($"src/{docsProject}/bin/{configuration}/netstandard2.0/{docsProject}.dll").ToString(), $"{docsDirectory}{System.IO.Path.DirectorySeparatorChar}",
 				new XmlDocMarkdownSettings { SourceCodePath = $"{docsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
-		}
-
-		if (GitHasUncommitedChanges(docsDirectory))
-		{
-			Information("Committing all documentation changes.");
-			GitAddAll(docsDirectory);
-			GitCommit(docsDirectory, "Faithlife Build Bot", "faithlifebuildbot@users.noreply.github.com", "Automatic documentation update.");
-			Information("Pushing updated documentation to GitHub.");
-			GitPush(docsDirectory, buildBotUserName, buildBotPassword, branchName);
-		}
-		else
-		{
-			Information("No documentation changes detected.");
 		}
 	});
 
@@ -95,8 +87,8 @@ Task("NuGetPackage")
 		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
 			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
 		//NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release", /*Suffix = versionSuffix*/ });
-		foreach (var projectPath in GetFiles("src/**/*.Tool.csproj").Select(x => x.FullPath))
-			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
+		foreach (var projectPath in GetFiles("src/**/*.Tool.csproj").Where(x => !nugetIgnore.Contains(x.GetFilenameWithoutExtension().ToString())).Select(x => x.FullPath))
+			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, NoBuild = true, NoRestore = true, OutputDirectory = "release", VersionSuffix = versionSuffix });
 	});
 
 Task("NuGetPackageTest")
@@ -132,6 +124,14 @@ Task("NuGetPublish")
 			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
 			foreach (var nupkgPath in nupkgPaths)
 				NuGetPush(nupkgPath, pushSettings);
+
+			if (docsDirectory != null && GitHasUncommitedChanges(docsDirectory))
+			{
+				Information("Pushing updated documentation to GitHub.");
+				GitAddAll(docsDirectory);
+				GitCommit(docsDirectory, buildBotDisplayName, buildBotEmail, $"Automatic documentation update for {version}.");
+				GitPush(docsDirectory, buildBotUserName, buildBotPassword, docsBranchName);
+			}
 		}
 		else
 		{
@@ -141,17 +141,5 @@ Task("NuGetPublish")
 
 Task("Default")
 	.IsDependentOn("Test");
-
-void ExecuteProcess(string exePath, string arguments)
-{
-	if (IsRunningOnUnix())
-	{
-		arguments = exePath + " " + arguments;
-		exePath = "mono";
-	}
-	int exitCode = StartProcess(exePath, arguments);
-	if (exitCode != 0)
-		throw new InvalidOperationException($"{exePath} failed with exit code {exitCode}.");
-}
 
 RunTarget(target);
