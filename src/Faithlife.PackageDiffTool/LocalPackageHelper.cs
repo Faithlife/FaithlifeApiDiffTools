@@ -17,7 +17,7 @@ using LocalPackageInfo = NuGet.Repositories.LocalPackageInfo;
 
 namespace Faithlife.PackageDiffTool
 {
-	class LocalPackageHelper
+	sealed class LocalPackageHelper : IDisposable
 	{
 		public LocalPackageHelper()
 		{
@@ -29,6 +29,8 @@ namespace Faithlife.PackageDiffTool
 			var psp = new PackageSourceProvider(m_settings);
 			var sources = psp.LoadPackageSources();
 			m_repositories = sources.Select(x => Repository.Factory.GetCoreV3(x.Source));
+
+			m_tempDirectories = new List<string>();
 		}
 
 		public ILogger Logger { get; set; } = NullLogger.Instance;
@@ -81,6 +83,7 @@ namespace Faithlife.PackageDiffTool
 			var reader = new PackageArchiveReader(File.OpenRead(packagePath));
 			var identity = reader.GetIdentity();
 			var rootDirectory = Path.Combine(Path.GetTempPath(), "apidiffpackages", Path.GetRandomFileName());
+			m_tempDirectories.Add(rootDirectory);
 
 			var context = new PackageExtractionContext(
 				PackageSaveMode.Files | PackageSaveMode.Nuspec,
@@ -96,9 +99,24 @@ namespace Faithlife.PackageDiffTool
 			return new PackageFolderReader(packageFolder);
 		}
 
+		public void Dispose()
+		{
+			foreach (var directory in m_tempDirectories)
+			{
+				try
+				{
+					Directory.Delete(directory, true);
+				}
+				catch (IOException)
+				{
+				}
+			}
+		}
+
 		readonly ISettings m_settings;
 		readonly string m_globalPackagesFolder;
 		readonly NuGetv3LocalRepository m_localRepository;
 		readonly IEnumerable<SourceRepository> m_repositories;
+		readonly List<string> m_tempDirectories;
 	}
 }
