@@ -21,10 +21,9 @@ namespace Faithlife.PackageDiffTool
 
 		static async Task<int> RunAsync(Options options)
 		{
-			var packageHelper = new LocalPackageHelper
-			{
-				Logger = options.Verbose ? ConsoleLogger.Instance : NullLogger.Instance
-			};
+			using var packageHelper = new LocalPackageHelper();
+			if (options.Verbose)
+				packageHelper.Logger = ConsoleLogger.Instance;
 
 			var package = await packageHelper.GetLocalPackageAsync(options.Path).ConfigureAwait(false);
 

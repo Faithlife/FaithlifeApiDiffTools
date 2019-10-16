@@ -56,7 +56,7 @@ namespace Faithlife.PackageDiffTool.Tests
 		[Fact]
 		public async Task TestComparePackageTypes()
 		{
-			var packageHelper = new LocalPackageHelper();
+			using var packageHelper = new LocalPackageHelper();
 
 			var package1 = await packageHelper.GetLocalPackageAsync("TestLibrary.1.0.0.nupkg").ConfigureAwait(false);
 			var package2 = await packageHelper.GetLocalPackageAsync("TestLibrary.2.0.0.nupkg").ConfigureAwait(false);
