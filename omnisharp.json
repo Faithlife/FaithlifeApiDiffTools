@@ -1,7 +1,8 @@
 {
+  "RoslynExtensionsOptions": {
+    "enableAnalyzersSupport": true
+  },
   "FormattingOptions": {
-    "UseTabs": true,
-    "SpaceAfterCast": true,
-    "IndentSwitchCaseSection": false
+    "enableEditorConfigSupport": true
   }
 }
