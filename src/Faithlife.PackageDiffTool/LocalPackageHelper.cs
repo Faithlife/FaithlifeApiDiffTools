@@ -107,7 +107,7 @@ namespace Faithlife.PackageDiffTool
 				{
 					Directory.Delete(directory, true);
 				}
-				catch (IOException)
+				catch (Exception)
 				{
 				}
 			}
