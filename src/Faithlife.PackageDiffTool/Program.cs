@@ -21,78 +21,76 @@ namespace Faithlife.PackageDiffTool
 
 		static async Task<int> RunAsync(Options options)
 		{
-			using (var packageHelper = new LocalPackageHelper())
+			using var packageHelper = new LocalPackageHelper();
+			if (options.Verbose)
+				packageHelper.Logger = ConsoleLogger.Instance;
+
+			var package = await packageHelper.GetLocalPackageAsync(options.Path).ConfigureAwait(false);
+
+			var packageId = options.PackageId ?? package.GetIdentity().Id;
+			var version = options.Version != null ? new NuGetVersion(options.Version) : null;
+			var basePackage = await packageHelper.GetPackageAsync(packageId, version, options.IncludePrerelease).ConfigureAwait(false);
+
+			if (basePackage == null)
 			{
-				if (options.Verbose)
-					packageHelper.Logger = ConsoleLogger.Instance;
-
-				var package = await packageHelper.GetLocalPackageAsync(options.Path).ConfigureAwait(false);
-
-				var packageId = options.PackageId ?? package.GetIdentity().Id;
-				var version = options.Version != null ? new NuGetVersion(options.Version) : null;
-				var basePackage = await packageHelper.GetPackageAsync(packageId, version, options.IncludePrerelease).ConfigureAwait(false);
-
-				if (basePackage == null)
-				{
-					Console.Error.WriteLine("Package not found {0} {1}", packageId, version);
-					return 1;
-				}
-
-				if (options.Verbose)
-					Console.WriteLine("Comparing {0} with base version {1}", package, basePackage.GetIdentity().Version);
-
-				var changes = PackageDiff.ComparePackageTypes(basePackage, package, out var suggestedVersion);
-
-				if (options.Verbose)
-				{
-					Console.WriteLine("Suggested version: {0}", suggestedVersion);
-					Console.WriteLine();
-					foreach (var pair in changes)
-					{
-						Console.WriteLine("Framework: {0}", pair.Key);
-						WriteVerboseChanges(pair.Value.SelectMany(x => x.Changes).ToList(), Console.Out);
-					}
-				}
-				else
-				{
-					Console.WriteLine(suggestedVersion);
-					if (!options.Quiet)
-					{
-						foreach (var pair in changes.Where(x => x.Value.SelectMany(y => y.Changes).Any()))
-						{
-							Console.WriteLine(pair.Key);
-							foreach (var change in pair.Value.SelectMany(x => x.Changes))
-								Console.WriteLine("{0} {1}", change.IsBreaking ? "B" : "N", change.Message);
-						}
-					}
-				}
-
-				if (options.XUnit)
-				{
-					var root = XUnitFormatter.Format(changes, packageId, package.GetIdentity().Version, suggestedVersion);
-					var doc = new XDocument(root);
-					var resultsFilePath = packageId + "-changes.xml";
-					if (options.OutputDirectory != null)
-						resultsFilePath = Path.Combine(options.OutputDirectory, resultsFilePath);
-					doc.Save(resultsFilePath);
-					if (options.Verbose)
-						Console.WriteLine("xUnit results saved in {0}", resultsFilePath);
-				}
-
-				if (options.VerifyVersion)
-				{
-					var compareVersion = package.GetIdentity().Version;
-
-					// if 1.2.3 is suggested, 1.2.3-xyz should be accepted
-					if (compareVersion.IsPrerelease && !suggestedVersion.IsPrerelease)
-						compareVersion = new NuGetVersion(compareVersion.Version);
-
-					if (compareVersion < suggestedVersion)
-						return 2;
-				}
-
-				return 0;
+				Console.Error.WriteLine("Package not found {0} {1}", packageId, version);
+				return 1;
 			}
+
+			if (options.Verbose)
+				Console.WriteLine("Comparing {0} with base version {1}", package, basePackage.GetIdentity().Version);
+
+			var changes = PackageDiff.ComparePackageTypes(basePackage, package, out var suggestedVersion);
+
+			if (options.Verbose)
+			{
+				Console.WriteLine("Suggested version: {0}", suggestedVersion);
+				Console.WriteLine();
+				foreach (var pair in changes)
+				{
+					Console.WriteLine("Framework: {0}", pair.Key);
+					WriteVerboseChanges(pair.Value.SelectMany(x => x.Changes).ToList(), Console.Out);
+				}
+			}
+			else
+			{
+				Console.WriteLine(suggestedVersion);
+				if (!options.Quiet)
+				{
+					foreach (var pair in changes.Where(x => x.Value.SelectMany(y => y.Changes).Any()))
+					{
+						Console.WriteLine(pair.Key);
+						foreach (var change in pair.Value.SelectMany(x => x.Changes))
+							Console.WriteLine("{0} {1}", change.IsBreaking ? "B" : "N", change.Message);
+					}
+				}
+			}
+
+			if (options.XUnit)
+			{
+				var root = XUnitFormatter.Format(changes, packageId, package.GetIdentity().Version, suggestedVersion);
+				var doc = new XDocument(root);
+				var resultsFilePath = packageId + "-changes.xml";
+				if (options.OutputDirectory != null)
+					resultsFilePath = Path.Combine(options.OutputDirectory, resultsFilePath);
+				doc.Save(resultsFilePath);
+				if (options.Verbose)
+					Console.WriteLine("xUnit results saved in {0}", resultsFilePath);
+			}
+
+			if (options.VerifyVersion)
+			{
+				var compareVersion = package.GetIdentity().Version;
+
+				// if 1.2.3 is suggested, 1.2.3-xyz should be accepted
+				if (compareVersion.IsPrerelease && !suggestedVersion.IsPrerelease)
+					compareVersion = new NuGetVersion(compareVersion.Version);
+
+				if (compareVersion < suggestedVersion)
+					return 2;
+			}
+
+			return 0;
 		}
 
 		static void WriteVerboseChanges(IReadOnlyCollection<Change> changes, TextWriter writer)

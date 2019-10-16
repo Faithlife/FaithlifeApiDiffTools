@@ -56,14 +56,13 @@ namespace Faithlife.PackageDiffTool.Tests
 		[Fact]
 		public async Task TestComparePackageTypes()
 		{
-			using (var packageHelper = new LocalPackageHelper())
-			{
-				var package1 = await packageHelper.GetLocalPackageAsync("TestLibrary.1.0.0.nupkg").ConfigureAwait(false);
-				var package2 = await packageHelper.GetLocalPackageAsync("TestLibrary.2.0.0.nupkg").ConfigureAwait(false);
-				PackageDiff.ComparePackageTypes(package1, package2, out var suggestedVersion);
+			using var packageHelper = new LocalPackageHelper();
 
-				Assert.Equal(new NuGetVersion("2.0.0"), suggestedVersion);
-			}
+			var package1 = await packageHelper.GetLocalPackageAsync("TestLibrary.1.0.0.nupkg").ConfigureAwait(false);
+			var package2 = await packageHelper.GetLocalPackageAsync("TestLibrary.2.0.0.nupkg").ConfigureAwait(false);
+			PackageDiff.ComparePackageTypes(package1, package2, out var suggestedVersion);
+
+			Assert.Equal(new NuGetVersion("2.0.0"), suggestedVersion);
 		}
 	}
 }
