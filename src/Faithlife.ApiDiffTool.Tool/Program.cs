@@ -38,10 +38,10 @@ namespace Faithlife.ApiDiffTool
 
 		class Options
 		{
-			[Value(0, Required = true)]
+			[Value(0, Required = true, HelpText = "Path to assembly file 1.")]
 			public string File1 { get; set; }
 
-			[Value(1, Required = true)]
+			[Value(1, Required = true, HelpText = "Path to assembly file 2.")]
 			public string File2 { get; set; }
 
 			[Option("includeInternals", HelpText = "Include internal types and members.")]

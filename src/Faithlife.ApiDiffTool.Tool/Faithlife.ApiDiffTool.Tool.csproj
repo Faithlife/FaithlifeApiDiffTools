@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>apidiff</ToolCommandName>
+    <PackageDescription>.NET Core Global Tool to diff the API of two assemblies.</PackageDescription>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj" />
+    <PackageReference Include="CommandLineParser" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Faithlife.ApiDiffTool\Program.cs" />
+    <ProjectReference Include="..\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj" />
   </ItemGroup>
 </Project>
