@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageDescription>Library to diff the API of two NuGet package versions.</PackageDescription>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Faithlife.ApiDiffTool\Faithlife.ApiDiffTool.csproj" />

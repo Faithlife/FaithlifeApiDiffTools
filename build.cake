@@ -58,6 +58,7 @@ Task("UpdateDocs")
 	.Does(() =>
 	{
 		docsDirectory = new DirectoryPath(docsBranchName);
+		DeleteDirectory(docsDirectory, new DeleteDirectorySettings { Recursive = true, Force = true });
 		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = docsBranchName });
 
 		Information($"Updating documentation at {docsDirectory}.");
