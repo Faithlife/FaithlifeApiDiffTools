@@ -8,6 +8,7 @@ var configuration = Argument("configuration", "Release");
 var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
 var versionSuffix = Argument("versionSuffix", "");
+var updateDocs = Argument("updateDocs", false);
 
 var solutionFileName = "Faithlife.ApiDiffTools.sln";
 var docsProjects = new[] { "Faithlife.ApiDiffTool", "Faithlife.FacadeGenerator", "Faithlife.PackageDiffTool" };
@@ -52,8 +53,7 @@ Task("Rebuild")
 	.IsDependentOn("Build");
 
 Task("UpdateDocs")
-	.WithCriteria(!string.IsNullOrEmpty(buildBotPassword))
-	.WithCriteria(EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
+	.WithCriteria(updateDocs)
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
