@@ -1,0 +1,7 @@
+{
+  "FormattingOptions": {
+    "UseTabs": true,
+    "SpaceAfterCast": true,
+    "IndentSwitchCaseSection": false
+  }
+}
