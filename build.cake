@@ -1,5 +1,5 @@
 #addin nuget:?package=Cake.Git&version=0.19.0
-#addin nuget:?package=Cake.XmlDocMarkdown&version=1.4.1
+#addin nuget:?package=Cake.XmlDocMarkdown&version=2.0.1
 
 using System.Text.RegularExpressions;
 
@@ -10,7 +10,7 @@ var trigger = Argument("trigger", "");
 var versionSuffix = Argument("versionSuffix", "");
 
 var solutionFileName = "Faithlife.ApiDiffTools.sln";
-var docsProjects = new[] { "Faithlife.ApiDiffTool" };
+var docsProjects = new[] { "Faithlife.ApiDiffTool", "Faithlife.FacadeGenerator", "Faithlife.PackageDiffTool" };
 var docsRepoUri = "https://github.com/Faithlife/FaithlifeApiDiffTools.git";
 var docsSourceUri = "https://github.com/Faithlife/FaithlifeApiDiffTools/tree/master/src";
 var nugetIgnore = new string[0];
@@ -81,13 +81,12 @@ Task("Test")
 Task("NuGetPackage")
 	.IsDependentOn("Rebuild")
 	.IsDependentOn("Test")
-	//.IsDependentOn("UpdateDocs")
+	.IsDependentOn("UpdateDocs")
 	.Does(() =>
 	{
 		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
 			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
-		//NuGetPack("Faithlife.ApiDiffTools.nuspec", new NuGetPackSettings { OutputDirectory = "release", /*Suffix = versionSuffix*/ });
-		foreach (var projectPath in GetFiles("src/**/*.Tool.csproj").Where(x => !nugetIgnore.Contains(x.GetFilenameWithoutExtension().ToString())).Select(x => x.FullPath))
+		foreach (var projectPath in GetFiles("src/**/*.csproj").Where(x => !nugetIgnore.Contains(x.GetFilenameWithoutExtension().ToString())).Select(x => x.FullPath))
 			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, NoBuild = true, NoRestore = true, OutputDirectory = "release", VersionSuffix = versionSuffix });
 	});
 
