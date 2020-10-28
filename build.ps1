@@ -13,7 +13,7 @@ Param(
     [string[]]$ScriptArgs
 )
 
-$CakeVersion = "0.30.0"
+$CakeVersion = "0.38.5"
 
 # create cake directory
 $CakeDirPath = Join-Path $PSScriptRoot "cake"
