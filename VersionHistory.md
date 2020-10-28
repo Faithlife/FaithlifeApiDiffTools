@@ -9,6 +9,7 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 * [minor] Drop .NET Framework target.
 * [patch] Clean up temp directories on exit.
 * [minor] Build tools for .NET Core 3.1.
+* [patch] Update Nuget.Protocol to 5.7.
 
 ## Released
 
