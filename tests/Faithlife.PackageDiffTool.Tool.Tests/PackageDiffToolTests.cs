@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Faithlife.PackageDiffTool.Tool.Tests
 {
-	public class PackageDiffToolTests
+	public sealed class PackageDiffToolTests : IDisposable
 	{
 		[Fact]
 		public async Task TestTool()
@@ -25,14 +25,22 @@ B Generic parameter reference-type constraint added: System.Void Faithlife.Utili
 			Assert.Equal(expectedOutput, output);
 		}
 
+		public void Dispose()
+		{
+			m_tempFiles.ForEach(File.Delete);
+		}
+
 		private async Task<string> DownloadFileAsync(string url)
 		{
 			using var httpClient = new HttpClient();
 			using var inputStream = await httpClient.GetStreamAsync(url);
 			var filePath = Path.Join(Path.GetTempPath(), Path.GetFileName(new Uri(url).LocalPath));
+			m_tempFiles.Add(filePath);
 			using var fileStream = File.OpenWrite(filePath);
 			await inputStream.CopyToAsync(fileStream);
 			return filePath;
 		}
+
+		private readonly List<string> m_tempFiles = new List<string>();
 	}
 }
