@@ -16,7 +16,7 @@ namespace Faithlife.PackageDiffTool
 		public static Task<int> Main(string[] args)
 		{
 			return Parser.Default.ParseArguments<Options>(args)
-	        	.MapResult(RunAsync, errors => Task.FromResult(1));
+				.MapResult(RunAsync, errors => Task.FromResult(1));
 		}
 
 		static async Task<int> RunAsync(Options options)
@@ -114,7 +114,7 @@ namespace Faithlife.PackageDiffTool
 			[Option(HelpText = "Package ID to compare with")]
 			public string PackageId { get; set; }
 
-			[Option(HelpText = "Package version to compare with")]
+			[Option("packageversion", HelpText = "Package version to compare with")]
 			public string Version { get; set; }
 
 			[Option(HelpText = "Include pre-release versions to compare with")]
