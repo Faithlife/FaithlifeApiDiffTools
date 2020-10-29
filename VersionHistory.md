@@ -10,6 +10,7 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 * [patch] Clean up temp directories on exit.
 * [minor] Build tools for .NET Core 3.1.
 * [major] Rename --version to --packageversion, don't fall back to latest if specified version isn't found.
+* [patch] Update Nuget.Protocol to 5.7.
 
 ## Released
 
