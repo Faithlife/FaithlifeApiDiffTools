@@ -47,30 +47,57 @@ namespace Faithlife.PackageDiffTool
 
 			using (var context = new SourceCacheContext())
 			{
-				var repoVersions = await Task.WhenAll(m_repositories.Select(async repo =>
+				if (version != null)
 				{
-					var metadata = await repo.GetResourceAsync<MetadataResource>(cancellationToken).ConfigureAwait(false);
-					var ver = await metadata.GetLatestVersion(packageId, includePrerelease, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
-					return (repository: repo, version: ver);
-				})).ConfigureAwait(false);
-				var (repository, latestVersion) = repoVersions.OrderByDescending(x => x.version).FirstOrDefault();
+					var repos = await Task.WhenAll(m_repositories.Select(async repo =>
+					{
+						var metadata = await repo.GetResourceAsync<MetadataResource>(cancellationToken).ConfigureAwait(false);
+						var versions = await metadata.GetVersions(packageId, includePrerelease, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
+						if (versions.Contains(version))
+							return repo;
+						return null;
+					})).ConfigureAwait(false);
+					var repository = repos.FirstOrDefault(x => x != null);
 
-				if (latestVersion != null)
+					if (repository != null)
+					{
+						var packageIdentity = new PackageIdentity(packageId, version);
+
+						return await DownloadPackageAsync(context, repository, packageIdentity, cancellationToken).ConfigureAwait(false);
+					}
+				}
+				else
 				{
-					var packageIdentity = new PackageIdentity(packageId, latestVersion);
+					var repoVersions = await Task.WhenAll(m_repositories.Select(async repo =>
+					{
+						var metadata = await repo.GetResourceAsync<MetadataResource>(cancellationToken).ConfigureAwait(false);
+						var ver = await metadata.GetLatestVersion(packageId, includePrerelease, includeUnlisted: false, context, Logger, cancellationToken).ConfigureAwait(false);
+						return (repository: repo, version: ver);
+					})).ConfigureAwait(false);
+					var (repository, latestVersion) = repoVersions.OrderByDescending(x => x.version).FirstOrDefault();
 
-					var downloadResource = await repository.GetResourceAsync<DownloadResource>(cancellationToken).ConfigureAwait(false);
-					var downloadResult = await downloadResource.GetDownloadResourceResultAsync(
-						packageIdentity,
-						new PackageDownloadContext(context),
-						m_globalPackagesFolder,
-						Logger,
-						cancellationToken).ConfigureAwait(false);
-					return downloadResult.PackageReader;
+					if (latestVersion != null)
+					{
+						var packageIdentity = new PackageIdentity(packageId, latestVersion);
+
+						return await DownloadPackageAsync(context, repository, packageIdentity, cancellationToken).ConfigureAwait(false);
+					}
 				}
 			}
 
 			return null;
+
+			async Task<PackageReaderBase> DownloadPackageAsync(SourceCacheContext context, SourceRepository repository, PackageIdentity packageIdentity, CancellationToken cancellationToken)
+			{
+				var downloadResource = await repository.GetResourceAsync<DownloadResource>(cancellationToken).ConfigureAwait(false);
+				var downloadResult = await downloadResource.GetDownloadResourceResultAsync(
+					packageIdentity,
+					new PackageDownloadContext(context),
+					m_globalPackagesFolder,
+					Logger,
+					cancellationToken).ConfigureAwait(false);
+				return downloadResult.PackageReader;
+			}
 		}
 
 		public async Task<PackageReaderBase> GetLocalPackageAsync(string packagePath, CancellationToken cancellationToken = default)
