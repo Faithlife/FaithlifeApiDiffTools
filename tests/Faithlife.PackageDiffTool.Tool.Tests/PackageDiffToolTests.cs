@@ -22,7 +22,7 @@ N Framework support removed: .NETFramework,Version=v4.7.2
 .NETStandard,Version=v2.0
 B Generic parameter reference-type constraint added: System.Void Faithlife.Utility.CollectionUtility::AddIfNotNull(System.Collections.Generic.ICollection`1<T>,T) T
 ";
-			Assert.Equal(expectedOutput, output);
+			Assert.Equal(expectedOutput, output, ignoreLineEndingDifferences: true);
 		}
 
 		public void Dispose()
