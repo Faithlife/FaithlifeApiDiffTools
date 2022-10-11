@@ -9,6 +9,6 @@
     <ProjectReference Include="..\Faithlife.FacadeGenerator\Faithlife.FacadeGenerator.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Protocol" Version="5.7.0" />
+    <PackageReference Include="NuGet.Protocol" Version="5.9.3" />
   </ItemGroup>
 </Project>
